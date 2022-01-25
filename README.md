@@ -5,10 +5,10 @@ requisitos
 
 dependencias
 - flask
-- ariadne
-- flask-sqlalchemy
+- "graphene>=3.0"
 - flask-cors
+- csv
 to install on venv
 (venv) 
-pip install flask ariadne flask-sqlalchemy flask-cors
+pip install flask flask-cors "graphene>=3.0"
 
