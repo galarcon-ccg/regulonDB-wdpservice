@@ -14,7 +14,7 @@ url = 'http://132.248.220.219/graphql'
 
 
 @app.route('/<datasetId>')
-def hello(datasetId):
+def author_data(datasetId):
     json_author_table = {
         'comments': [],
         'columns': [],
@@ -57,7 +57,6 @@ def hello(datasetId):
             for i in range(len(row)):
                 data[columns[i]] = row[i]
             json_author_table['data'].append(data)
-    print(json_author_table['data'])
     response = app.response_class(
         response=json.dumps(json_author_table),
         status=200,
