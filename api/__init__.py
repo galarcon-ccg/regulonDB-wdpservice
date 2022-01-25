@@ -1,10 +1,12 @@
 from ast import Try
-from flask import Flask
+from flask import Flask, json
 from flask_cors import CORS
 from sgqlc.endpoint.http import HTTPEndpoint
 from io import StringIO
 import csv
 import re
+
+from sqlalchemy import column
 
 app = Flask(__name__)
 CORS(app)
@@ -26,16 +28,39 @@ def hello(datasetId):
         }
     }"""
     endpoint = HTTPEndpoint(url)
-    data = endpoint(query,variables)
-    file = StringIO(data['data']['getAuthorsDataOfDataset'][0]['authorsData'])
+    data = endpoint(query, variables)
+    try:
+        strFile = data['data']['getAuthorsDataOfDataset'][0]['authorsData']
+    except:
+        return "error"
+    file = StringIO(""+strFile)
     reader = csv.reader(file, delimiter=',')
+    author_data = []
     # search comments
-    lines_comments = []
-    index = 0
     for row in reader:
-        if re.search("^#",row[0]):
+        if re.search("^#", row[0]):
             json_author_table['comments'].append("".join(row))
-        +(+index)
-    print(json_author_table)
-    return 'My First API !!'
-
+        else:
+            author_data.append(row)
+    columns = []
+    for index in range(len(author_data)):
+        row = author_data[index]
+        if index == 0:
+            for cell in row:
+                columns.append("_"+cell.replace(" ", "_").casefold())
+                json_author_table['columns'].append({
+                    'Header': ""+cell,
+                    'accessor': "_"+cell.replace(" ", "_").casefold()
+                })
+        else:
+            data = {}
+            for i in range(len(row)):
+                data[columns[i]] = row[i]
+            json_author_table['data'].append(data)
+    print(json_author_table['data'])
+    response = app.response_class(
+        response=json.dumps(json_author_table),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
