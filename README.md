@@ -17,5 +17,4 @@ pip install flask flask-cors "graphene>=3.0"
 
 Ejecutar
 - export FLASK_APP=app.py
-- export FLASK_APP=app.py
 - flask run --host=0.0.0.0
