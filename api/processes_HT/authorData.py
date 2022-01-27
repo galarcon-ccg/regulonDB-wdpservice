@@ -2,6 +2,7 @@ from io import StringIO
 import csv
 import re
 
+
 def formatData_to_json_author_table(authorsData):
     json_author_table = {
         'comments': [],
