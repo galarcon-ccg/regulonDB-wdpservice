@@ -8,12 +8,13 @@ to activate
 
 dependencias
 - flask
-- "graphene>=3.0"
+- sgqlc
 - flask-cors
 - csv
+- python-dotenv
 to install on venv
 (venv) 
-pip install flask flask-cors "graphene>=3.0"
+pip install flask flask-cors sgqlc python-dotenv
 
 Ejecutar
 - export FLASK_APP=app.py
