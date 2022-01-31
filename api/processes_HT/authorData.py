@@ -15,7 +15,6 @@ def formatData_to_json_author_table(authorsData):
     # search comments
     for row in reader:
         if re.search("^#", row[0]):
-            print(row)
             json_author_table['comments'].append("".join(row))
         else:
             author_data.append(row)

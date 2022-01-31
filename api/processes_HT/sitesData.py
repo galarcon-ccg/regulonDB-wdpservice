@@ -4,12 +4,28 @@ def process_sites_to_jsonT(sites):
         'columns': [],
         'data': []
     }
+    columns = ['start', 'end', 'score', 'strand', 'sequence', 'genes']
     return json_sites_table
 
-#NC_000913.3	RegulonDB	binding_site	8108	8130	5.4	-	.	name=tfbs in peak_3;sequence=CGAGACTGTTTCGGATTTCTGA
-#chromosome,RegulonDB,binding_site,chrLeftPosition,chrRightPosition,score,strand,.,name="tfbs in peak 3";sequence=CGAT
+
 def process_sites_to_gff3(sites):
-    gff3_sites = """
-    #chromosome,RegulonDB,binding_site,chrLeftPosition,chrRightPosition,score,strand,.,name="tfbs in peak 3";sequence=CGAT
-    """
+    # chromosome,RegulonDB,binding_site,chrLeftPosition,chrRightPosition,score,strand,.,name="";sequence=CGAT
+    gff3_sites = ""
+    for site in sites:
+        tuple_site = (
+            site["chromosome"],
+            "RegulonDB",
+            "binding_site",
+            str(site["chrLeftPosition"]),
+            str(site["chrRightPosition"]),
+            str(site["score"]),
+            site["strand"],
+            ".",
+            "name="+site["_id"]+";sequence="+site["sequence"]
+        )
+        try:
+            gff3_sites = gff3_sites+"\t".join(tuple_site)+"\n"
+        except Exception as e:
+            print(e)
+            print(site)
     return gff3_sites
