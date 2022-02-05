@@ -23,7 +23,7 @@ class HTprocess:
             return ""
         query = self.querys.PeaksDataOfDataset
         variables = {"datasetId": "" + self.id_dataset}
-        data = self.check_cache(file_format)
+        data = self.check_cache(file_format, "peak")
         if not data:
             try:
                 data = self.gql_service(query, variables)
@@ -33,11 +33,11 @@ class HTprocess:
                     self.ht_response = Response(
                         data,
                         mimetype="text/gff3",
-                        headers={"Content-disposition": "attachment; gff3_" + self.id_dataset + ".gff3"}
+                        headers={"Content-disposition": "attachment; gff3_peak_" + self.id_dataset + ".gff3"}
                     )
                 else:
                     data = str(data)
-                with open("./cache/" + self.id_dataset + "_" + file_format + ".cache", "w") as file:
+                with open("./cache/" + self.id_dataset + "_peak_" + file_format + ".cache", "w") as file:
                     file.write(data)
             except Exception as e:
                 print(e)
@@ -46,11 +46,10 @@ class HTprocess:
                 self.ht_response = Response(
                     data,
                     mimetype="text/gff3",
-                    headers={"Content-disposition": "attachment; gff3_" + self.id_dataset + ".gff3"}
+                    headers={"Content-disposition": "attachment; gff3_peak_" + self.id_dataset + ".gff3"}
                 )
             else:
                 self.ht_response = 'invalid format: ' + file_format
-
 
     def sites_data(self, file_format):
         file_format = file_format.lower()
@@ -60,7 +59,7 @@ class HTprocess:
             return ""
         query = self.querys.SitesDataOfDataset
         variables = {"datasetId": "" + self.id_dataset}
-        data = self.check_cache(file_format)
+        data = self.check_cache(file_format, "sites")
         if not data:
             try:
                 data = self.gql_service(query, variables)
@@ -70,11 +69,11 @@ class HTprocess:
                     self.ht_response = Response(
                         data,
                         mimetype="text/gff3",
-                        headers={"Content-disposition": "attachment; gff3_" + self.id_dataset + ".gff3"}
+                        headers={"Content-disposition": "attachment; gff3_sites_" + self.id_dataset + ".gff3"}
                     )
                 else:
                     data = str(data)
-                with open("./cache/" + self.id_dataset + "_" + file_format + ".cache", "w") as file:
+                with open("./cache/" + self.id_dataset + "_sites_" + file_format + ".cache", "w") as file:
                     file.write(data)
             except Exception as e:
                 print(e)
@@ -84,7 +83,7 @@ class HTprocess:
                 self.ht_response = Response(
                     data,
                     mimetype="text/gff3",
-                    headers={"Content-disposition": "attachment; gff3_" + self.id_dataset + ".gff3"}
+                    headers={"Content-disposition": "attachment; gff3_sites_" + self.id_dataset + ".gff3"}
                 )
             else:
                 self.ht_response = 'invalid format: ' + file_format
@@ -97,37 +96,38 @@ class HTprocess:
             return ""
         query = self.querys.AuthorsDataOfDataset
         variables = {"datasetId": "" + self.id_dataset}
-        data = self.check_cache(file_format)
+        data = self.check_cache(file_format, "author")
         if not data:
             data = self.gql_service(query, variables)
             try:
-                print("consulta")
+                # print("consulta")
                 data = data['data']['getAuthorsDataOfDataset'][0]['authorsData']
                 if file_format == 'jsontable':
-                    data = str(formatData_to_json_author_table(data))
-                with open("./cache/" + self.id_dataset + "_" + file_format + ".cache", "w") as file:
+                    data = json.dumps(formatData_to_json_author_table(data))
+                with open("./cache/" + self.id_dataset + "_author_" + file_format + ".cache", "w") as file:
                     file.write(data)
             except Exception as e:
                 print(e)
                 data = "error: " + str(e)
-        print("cache")
+        # print("cache")
         if file_format == 'cvs':
             self.ht_response = Response(
                 data,
                 mimetype="text/csv",
-                headers={"Content-disposition": "attachment; authorData_" + self.id_dataset + ".csv"}
+                headers={"Content-disposition": "attachment; authorData_author_" + self.id_dataset + ".csv"}
             )
         elif file_format == 'jsontable':
-            data = json.loads(data.replace("'", "\""))
+            # print(data)
+            data = json.loads(data)
             self.ht_response = jsonify(data)
         else:
             self.ht_response = 'invalid format: ' + file_format
 
-    def check_cache(self, type_file):
+    def check_cache(self, format_file, type_file):
         data = False
-        if os.path.exists("./cache/" + self.id_dataset + "_" + type_file + ".cache"):
+        if os.path.exists("./cache/" + self.id_dataset + "_" + format_file + "_" + type_file + ".cache"):
             try:
-                return open("./cache/" + self.id_dataset + "_" + type_file + ".cache", "r").read()
+                return open("./cache/" + self.id_dataset + "_" + format_file + "_" + type_file + ".cache", "r").read()
             except Exception as e:
                 print(e)
         return data
