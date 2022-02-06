@@ -1,4 +1,5 @@
 class Querys:
+
     AuthorsDataOfDataset = """
     query AuthorsDataOfDataset($datasetId: String!)
     {
@@ -73,3 +74,9 @@ class Querys:
         }
     }
     """
+
+    switch_querys = {
+        "author": AuthorsDataOfDataset,
+        "peaks": PeaksDataOfDataset,
+        "sites": SitesDataOfDataset
+    }

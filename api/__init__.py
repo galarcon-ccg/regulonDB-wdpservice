@@ -18,16 +18,16 @@ def index():
 
 @app.route('/process/ht-dataset/<id_dataset>/<data_type>/<file_format>')
 def process_ht(id_dataset, data_type, file_format):
+    data_type = data_type.lower()
     ht_process = HTprocess(id_dataset, gql_service)
-    response = 'error'
-    if data_type == 'authorData':
+    response = 'error a'
+    valid_types = ["sites", "peaks"]
+    print(data_type)
+    if data_type == 'authordata':
         ht_process.author_data(file_format)
         return ht_process.get_response()
-    elif data_type == 'sitesData':
-        ht_process.sites_data(file_format)
-        return ht_process.get_response()
-    elif data_type == 'peaksData':
-        ht_process.peaks_data(file_format)
+    elif data_type in valid_types:
+        ht_process.get_data(file_format, data_type)
         return ht_process.get_response()
     return response
 
