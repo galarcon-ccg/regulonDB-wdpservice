@@ -21,5 +21,7 @@ class WServices:
             return data['data']['getAllTransUnitsOfDataset']
         elif self.data_type == "tts":
             return data['data']['getAllTTSOfDataset']
+        elif self.data_type == "tss":
+            return data['data']['getAllTSSOfDataset']
         else:
             return {"error": "data type"}
