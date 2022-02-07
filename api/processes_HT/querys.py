@@ -100,9 +100,46 @@ class Querys:
     }
     """
 
+    TtsOfDataset = """
+        query TTSDataOfDataset($datasetId: String!)
+        {
+            getAllTTSOfDataset(datasetId: $datasetId){
+                _id
+                chromosome
+                leftEndPosition
+                rightEndPosition
+                name
+                strand
+                closestGenes {
+                  _id
+                  name
+                  distanceTo
+                }
+                terminator {
+                  _id
+                  transcriptionUnits {
+                    _id
+                    name
+                    promoter {
+                      _id
+                      name
+                      sequence
+                      leftEndPosition
+                      rightEndPosition
+                      strand
+                    }
+                  }
+                }
+                datasetIds
+                temporalId
+            }
+        }
+        """
+
     switch_querys = {
         "author": AuthorsDataOfDataset,
         "peaks": PeaksDataOfDataset,
         "sites": SitesDataOfDataset,
-        "tu": TuDataOfDataset
+        "tus": TuDataOfDataset,
+        "tts": TtsOfDataset
     }

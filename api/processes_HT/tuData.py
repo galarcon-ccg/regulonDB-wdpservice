@@ -29,7 +29,7 @@ def process_tus_to_gff3(tus):
             "RegulonDB",
             "transcript_region",
             str(tu["leftEndPosition"]),
-            str(tu["leftEndPosition"]),
+            str(tu["rightEndPosition"]),
             ".",
             tu["strand"],
             ".",

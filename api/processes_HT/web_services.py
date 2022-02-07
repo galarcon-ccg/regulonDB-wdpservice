@@ -17,7 +17,9 @@ class WServices:
             return data['data']['getAllTFBindingOfDataset']
         elif self.data_type == "peaks":
             return data['data']['getAllPeaksOfDataset']
-        elif self.data_type == "tu":
-            return  data['data']['getAllTransUnitsOfDataset']
+        elif self.data_type == "tus":
+            return data['data']['getAllTransUnitsOfDataset']
+        elif self.data_type == "tts":
+            return data['data']['getAllTTSOfDataset']
         else:
             return {"error": "data type"}

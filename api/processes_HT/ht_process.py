@@ -7,6 +7,7 @@ from .authorData import formatData_to_json_author_table
 from .sitesData import process_sites_to_gff3
 from .peaksData import process_peaks_to_gff3
 from .tuData import process_tus_to_gff3
+from .ttsData import process_tts_to_gff3
 
 
 class HTprocess:
@@ -33,8 +34,10 @@ class HTprocess:
                         data = process_sites_to_gff3(data)
                     elif data_type == "peaks":
                         data = process_peaks_to_gff3(data)
-                    elif data_type == "tu":
+                    elif data_type == "tus":
                         data = process_tus_to_gff3(data)
+                    elif data_type == "tts":
+                        data = process_tts_to_gff3(data)
                     else:
                         data = "error: file format ht process"
                     self.ht_response = Response(
