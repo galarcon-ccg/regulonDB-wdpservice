@@ -12,6 +12,9 @@ def process_sites_to_gff3(sites):
     # chromosome,RegulonDB,binding_site,chrLeftPosition,chrRightPosition,score,strand,.,name="";sequence=CGAT
     gff3_sites = ""
     for site in sites:
+        for key in site:
+            if not site[key]:
+                site[key] = ""
         tuple_site = (
             site["chromosome"],
             "RegulonDB",

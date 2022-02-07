@@ -13,6 +13,9 @@ def process_peaks_to_gff3(peaks):
     # name=peak_1;FC_summitlog10=1.70158;pval_summitlog10=22.0292;qval_summit=19.3913;relative_summit_pos=81
     gff3_peaks = ""
     for peak in peaks:
+        for key in peak:
+            if not peak[key]:
+                peak[key] = ""
         tuple_site = (
             peak["chromosome"],
             "RegulonDB",

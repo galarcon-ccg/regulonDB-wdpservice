@@ -75,8 +75,34 @@ class Querys:
     }
     """
 
+    TuDataOfDataset = """
+    query TuDataOfDataset($datasetId: String!)
+    {
+        getAllTransUnitsOfDataset(datasetId: $datasetId){
+            _id
+            chromosome
+            leftEndPosition
+            rightEndPosition
+            name
+            strand
+            length
+            termType
+            genes {
+              _id
+              name
+              bnumber
+            }
+            phantom
+            pseudo
+            datasetIds
+            temporalId
+        }
+    }
+    """
+
     switch_querys = {
         "author": AuthorsDataOfDataset,
         "peaks": PeaksDataOfDataset,
-        "sites": SitesDataOfDataset
+        "sites": SitesDataOfDataset,
+        "tu": TuDataOfDataset
     }

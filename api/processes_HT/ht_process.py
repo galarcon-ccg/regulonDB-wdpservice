@@ -6,6 +6,7 @@ from .web_services import WServices
 from .authorData import formatData_to_json_author_table
 from .sitesData import process_sites_to_gff3
 from .peaksData import process_peaks_to_gff3
+from .tuData import process_tus_to_gff3
 
 
 class HTprocess:
@@ -32,8 +33,10 @@ class HTprocess:
                         data = process_sites_to_gff3(data)
                     elif data_type == "peaks":
                         data = process_peaks_to_gff3(data)
+                    elif data_type == "tu":
+                        data = process_tus_to_gff3(data)
                     else:
-                        data = {"error": "file format ht process"}
+                        data = "error: file format ht process"
                     self.ht_response = Response(
                         data,
                         mimetype="text/gff3",
@@ -45,7 +48,7 @@ class HTprocess:
                     file.write(data)
             except Exception as e:
                 print(e)
-                self.ht_response = "Error: " + str(e)
+                self.ht_response = "51 Error: " + str(e)
         else:
             if file_format == 'gff3':
                 self.ht_response = Response(
