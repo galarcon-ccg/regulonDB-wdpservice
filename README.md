@@ -61,7 +61,7 @@ Enter the project directory and install venv with the following command
 ```shell
 python3 -m venv venv
 ```
-**Step 2 activate venv**
+**Step 3 activate venv**
 on project directory
 ```shell
 . venv/bin/activate
