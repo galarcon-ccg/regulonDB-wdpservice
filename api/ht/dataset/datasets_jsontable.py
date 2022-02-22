@@ -6,20 +6,15 @@ def dataset_jsontable(datasets):
     columns = []
     for key in Dataset:
         column = False
-        if Dataset[key] is str:
-            column = {
-                'Header': key,
-                'accessor': "_"+key
-            }
-        elif Dataset[key] is int:
-            column = {
-                'Header': key,
-                'accessor': "_"+key
-            }
-        elif type(Dataset[key]) is list:
+        if type(Dataset[key]) is list:
             column = proses_head_list(key, Dataset[key])
         elif type(Dataset[key]) is dict:
             column = proses_head_dict(key, Dataset[key])
+        else:
+            column = {
+                'Header': key,
+                'accessor': "_"+key
+            }
         if column:
             columns.append(column)
         # print(column)
@@ -31,12 +26,14 @@ def dataset_jsontable(datasets):
             if type(dataset[key]) is str:
                 row['_'+key] = dataset[key]
             elif type(dataset[key]) is list:
-                row = {**row, **proses_data_list(key, dataset[key])}
+                if len(dataset[key]) > 0:
+                    row = {**row, **proses_data_list(key, dataset[key])}
             elif type(dataset[key]) is dict:
-                row = {**row, **proses_data_dict(key, dataset[key])}
+                if len(dataset[key]) > 0:
+                    row = {**row, **proses_data_dict(key, dataset[key])}
         if len(row) > 0:
             data.append(row)
-    print(data)
+    # print(data)
     return "hola"
 
 
@@ -79,10 +76,9 @@ def proses_data_dict(key, data_dict):
     return row
 
 
-def proses_head_list(key, data):
+def proses_head_list(key, data_list):
     columns = []
-    for subcolumn in data[0]:
-        # print(data[0][subcolumn])
+    for subcolumn in data_list[0]:
         if data[0][subcolumn] is str:
             columns.append({
                 'Header': subcolumn,
@@ -112,6 +108,7 @@ def proses_head_list(key, data):
 def proses_head_dict(key, data):
     columns = []
     for subcolumn in data:
+        print(key+"_" + subcolumn)
         # print(data[column])
         if data[subcolumn] is str:
             columns.append({
@@ -133,7 +130,6 @@ def proses_head_dict(key, data):
                 'Header': subcolumn,
                 'columns': proses_head_dict(subcolumn, data[subcolumn])
             })
-
     return {
         'Header': key,
         'columns': columns
