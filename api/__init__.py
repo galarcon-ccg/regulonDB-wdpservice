@@ -33,9 +33,9 @@ def ht_datasets(file_format):
         print(data_json['advancedSearch'])
         dataset_search = DatasetsSearch(data_json['advancedSearch'], True, gql_service)
         dataset_search.get_data(file_format)
-        return {"hola": "hola"}
+        return dataset_search.response
     return '''
-        hola
+        what?
         '''
 
 

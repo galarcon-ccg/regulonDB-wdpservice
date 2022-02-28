@@ -33,8 +33,10 @@ def dataset_jsontable(datasets):
                     row = {**row, **proses_data_dict(key, dataset[key])}
         if len(row) > 0:
             data.append(row)
-    # print(data)
-    return "hola"
+    return {
+        "columns": columns,
+        "data": data,
+    }
 
 
 def proses_data_list(key, data_list):
@@ -79,25 +81,25 @@ def proses_data_dict(key, data_dict):
 def proses_head_list(key, data_list):
     columns = []
     for subcolumn in data_list[0]:
-        if data[0][subcolumn] is str:
+        if data_list[0][subcolumn] is str:
             columns.append({
                 'Header': subcolumn,
                 'accessor': "_"+key+"_"+subcolumn
             })
-        elif data[0][subcolumn] is int:
+        elif data_list[0][subcolumn] is int:
             columns.append({
                 'Header': subcolumn,
                 'accessor': "_" + key + "_" + subcolumn
             })
-        elif data[0][subcolumn] is list:
+        elif data_list[0][subcolumn] is list:
             columns.append({
                 'Header': subcolumn,
-                'columns': proses_head_list(subcolumn, data[0][subcolumn])
+                'columns': proses_head_list(subcolumn, data_list[0][subcolumn])
             })
-        elif data[0][subcolumn] is dict:
+        elif data_list[0][subcolumn] is dict:
             columns.append({
                 'Header': subcolumn,
-                'columns': proses_head_dict(subcolumn, data[0][subcolumn])
+                'columns': proses_head_dict(subcolumn, data_list[0][subcolumn])
             })
     return {
         'Header': key,
@@ -108,7 +110,7 @@ def proses_head_list(key, data_list):
 def proses_head_dict(key, data):
     columns = []
     for subcolumn in data:
-        print(key+"_" + subcolumn)
+        # print(key+"_" + subcolumn)
         # print(data[column])
         if data[subcolumn] is str:
             columns.append({

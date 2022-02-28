@@ -1,4 +1,6 @@
 import os
+import json
+from flask import jsonify
 from .web_services import WServices
 from .datasets_jsontable import dataset_jsontable
 
@@ -22,15 +24,26 @@ class DatasetsSearch:
             data = self.check_cache(file_format)
         if not data:
             try:
-                print("ws in")
-                ws = WServices(self.gql_service,self.advanced_search)
+                ws = WServices(self.gql_service, self.advanced_search)
                 data = ws.get_data()
                 if file_format == 'jsontable':
                     data = dataset_jsontable(data)
-
+                    data = json.loads(str(data).replace("'", "\""))
+                    self.response = jsonify(data)
+                else:
+                    self.response = {"error": "formato invalido"}
+                data = str(data)
+                with open("./cache/" + file_format + "_" + self.advanced_search + ".cache", "w") as file:
+                    file.write(data)
             except Exception as e:
                 print("dataset error: "+str(e))
                 self.response = "dataset process error: " + str(e)
+        else:
+            if file_format == 'jsontable':
+                data = json.loads(str(data).replace("'", "\""))
+                self.response = jsonify(data)
+            else:
+                self.response = {"error": "formato invalido"}
 
     def check_cache(self, file_format):
         data = False
