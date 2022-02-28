@@ -24,7 +24,7 @@ def dataset_jsontable(datasets):
         row = {}
         for key in dataset:
             if type(dataset[key]) is str:
-                row['_'+key] = dataset[key]
+                row[key] = dataset[key]
             elif type(dataset[key]) is list:
                 if len(dataset[key]) > 0:
                     row = {**row, **proses_data_list(key, dataset[key])}
