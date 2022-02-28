@@ -13,7 +13,7 @@ def dataset_jsontable(datasets):
         else:
             column = {
                 'Header': key,
-                'accessor': "_"+key
+                'accessor': key
             }
         if column:
             columns.append(column)
@@ -44,17 +44,39 @@ def proses_data_list(key, data_list):
     for dt in data_list:
         try:
             if type(dt) is str:
-                if key in row.keys():
-                    row[key].append(dt)
-                else:
-                    row[key] = [dt]
+                row[key] = dt
             elif type(dt) is list:
                 row = {**row, **proses_data_list(key, dt)}
             elif type(dt) is dict:
-                row = {**row, **proses_data_dict(key, dt)}
+                row = proses_dict(proses_data_dict(key, dt), row)
         except Exception as e:
             print("error prosses data list: "+str(e)+" on dt: "+str(dt))
     return row
+
+
+def proses_dict(d_a, d_b):
+    row = {}
+    for key in d_a:
+        try:
+            if key in d_b.keys():
+                dt_a = d_a[key]
+                dt_b = d_b[key]
+                if type(dt_b) is type(dt_a):
+                    if type(dt_b) is str:
+                        row[key] = d_a[key]+", "+d_b[key]
+                    elif type(dt_b) is list:
+                        print("unsupported list add list")
+                    elif type(dt_b) is dict:
+                        print("unsupported dict add dict")
+            else:
+                row[key] = d_a[key]
+        except Exception as e:
+            print("error prosses data list: "+str(e))
+    for key in d_b:
+        if key not in d_a.keys():
+            row[key] = d_b[key]
+    return row
+
 
 
 def proses_data_dict(key, data_dict):
@@ -62,12 +84,9 @@ def proses_data_dict(key, data_dict):
     for sub_key in data_dict:
         try:
             dt = data_dict[sub_key]
-            nw_key = '_' + key + '_' + sub_key
+            nw_key = key + '_' + sub_key
             if type(dt) is str:
-                if nw_key in row.keys():
-                    row[nw_key] = row[nw_key].append(dt)
-                else:
-                    row[nw_key] = [dt]
+                row[nw_key] = dt
             elif type(dt) is list:
                 if len(dt) > 0:
                     row = {**row, **proses_data_list(nw_key, dt)}
@@ -84,12 +103,12 @@ def proses_head_list(key, data_list):
         if data_list[0][subcolumn] is str:
             columns.append({
                 'Header': subcolumn,
-                'accessor': "_"+key+"_"+subcolumn
+                'accessor': key+"_"+subcolumn
             })
         elif data_list[0][subcolumn] is int:
             columns.append({
                 'Header': subcolumn,
-                'accessor': "_" + key + "_" + subcolumn
+                'accessor': key + "_" + subcolumn
             })
         elif data_list[0][subcolumn] is list:
             columns.append({
@@ -115,12 +134,12 @@ def proses_head_dict(key, data):
         if data[subcolumn] is str:
             columns.append({
                 "Header": subcolumn,
-                'accessor': "_"+key+"_"+subcolumn
+                'accessor': key+"_"+subcolumn
             })
         elif data[subcolumn] is int:
             columns.append({
                 'Header': subcolumn,
-                'accessor': "_" + key + "_" + subcolumn
+                'accessor': key + "_" + subcolumn
             })
         elif data[subcolumn] is list:
             columns.append({

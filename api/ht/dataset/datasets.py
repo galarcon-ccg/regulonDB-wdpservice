@@ -20,7 +20,7 @@ class DatasetsSearch:
             self.response = 'invalid format: ' + file_format
             return ""
         data = False
-        if self.is_caching:
+        if not self.is_caching:
             data = self.check_cache(file_format)
         if not data:
             try:
@@ -28,7 +28,8 @@ class DatasetsSearch:
                 data = ws.get_data()
                 if file_format == 'jsontable':
                     data = dataset_jsontable(data)
-                    data = json.loads(str(data).replace("'", "\""))
+                    data = json.dumps(data)
+                    data = json.loads(data)
                     self.response = jsonify(data)
                 else:
                     self.response = {"error": "formato invalido"}
@@ -40,7 +41,7 @@ class DatasetsSearch:
                 self.response = "dataset process error: " + str(e)
         else:
             if file_format == 'jsontable':
-                data = json.loads(str(data).replace("'", "\""))
+                data = json.loads(data)
                 self.response = jsonify(data)
             else:
                 self.response = {"error": "formato invalido"}

@@ -81,13 +81,11 @@ ExternalCrossReferences = {
 }
 
 ObjectTested = {
-    "_id": str,
     "name": str,
     "synonyms": str,
-    "genes": [objectTestedGene],
+    "genes_name": str,
     "note": str,
     "activeConformations": str,
-    "externalCrossReferences": [ExternalCrossReferences],
 }
 
 DatasetPublication = {
