@@ -16,7 +16,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-@app.route('/wdps')
+@app.route('/')
 def index():
     return "welcome :)"
 
@@ -26,7 +26,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/wdps/ht/dataset/<file_format>', methods=['GET', 'POST'])
+@app.route('/ht/dataset/<file_format>', methods=['GET', 'POST'])
 def ht_datasets(file_format):
     file_format = file_format.lower()
     if request.method == 'POST':
@@ -40,7 +40,7 @@ def ht_datasets(file_format):
         '''
 
 
-@app.route('/wdps/process/ht-dataset/<id_dataset>/<data_type>/<file_format>')
+@app.route('/process/ht-dataset/<id_dataset>/<data_type>/<file_format>')
 def process_ht(id_dataset, data_type, file_format):
     data_type = data_type.lower()
     ht_process = HTprocess(id_dataset, gql_service)
