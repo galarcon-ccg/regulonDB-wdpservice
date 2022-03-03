@@ -40,7 +40,7 @@ def ht_datasets(file_format):
         '''
 
 
-@app.route('/wpds/process/ht-dataset/<id_dataset>/<data_type>/<file_format>')
+@app.route('/wdps/process/ht-dataset/<id_dataset>/<data_type>/<file_format>')
 def process_ht(id_dataset, data_type, file_format):
     data_type = data_type.lower()
     ht_process = HTprocess(id_dataset, gql_service)
