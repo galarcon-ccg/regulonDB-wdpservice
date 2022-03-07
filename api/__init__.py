@@ -26,7 +26,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/ht/dataset/<file_format>', methods=['GET', 'POST'])
+@app.route('/ht/wdps/<file_format>', methods=['GET', 'POST'])
 def ht_datasets(file_format):
     file_format = file_format.lower()
     if request.method == 'POST':
@@ -40,7 +40,7 @@ def ht_datasets(file_format):
         '''
 
 
-@app.route('/process/ht-dataset/<id_dataset>/<data_type>/<file_format>')
+@app.route('/ht/wdps/<id_dataset>/<data_type>/<file_format>')
 def process_ht(id_dataset, data_type, file_format):
     data_type = data_type.lower()
     ht_process = HTprocess(id_dataset, gql_service)
