@@ -85,9 +85,9 @@ duplicate the .env-sample file and rename it to .env and add the information req
 
 ``` 
 #rename this file to '.env' when the fields have been filled
-# GQL_SEVICE = "url of RegulonDB-HT GraphQL API"
+# GQL_SERVICE = "url of RegulonDB-HT GraphQL API"
 
-GQL_SEVICE=000.000.000.00
+GQL_SERVICE=000.000.000.00
 ```
 
 **Step 6 start service**
