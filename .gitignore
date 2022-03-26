@@ -88,3 +88,4 @@ celerybeat-schedule
 # Rope project settings
 .ropeproject
 *.cache
+.DS_Store
