@@ -14,23 +14,15 @@ class Querys:
     }
     fivePrimeEnrichment
     objectsTested {
-      _id
       name
       synonyms
       genes {
-        _id
         name
       }
       note
       activeConformations
-      externalCrossReferences {
-        externalCrossReferenceId
-        externalCrossReferenceName
-        objectId
-        url
-      }
     }
-    sourceSerie {
+    sourceSerie{
       series {
         sourceId
         sourceName
