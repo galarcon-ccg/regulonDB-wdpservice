@@ -20,7 +20,7 @@ class DatasetsSearch:
             self.response = 'invalid format: ' + file_format
             return ""
         data = False
-        if not self.is_caching:
+        if self.is_caching:
             data = self.check_cache(file_format)
         if not data:
             try:
@@ -34,8 +34,9 @@ class DatasetsSearch:
                 else:
                     self.response = {"error": "formato invalido"}
                 data = str(data)
-                with open("./cache/" + file_format + "_" + self.advanced_search + ".cache", "w") as file:
-                    file.write(data)
+                if self.is_caching:
+                    with open("./cache/" + file_format + "_" + self.advanced_search + ".cache", "w") as file:
+                        file.write(data)
             except Exception as e:
                 print("dataset error: "+str(e))
                 self.response = "dataset process error: " + str(e)
