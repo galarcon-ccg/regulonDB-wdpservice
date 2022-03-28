@@ -32,7 +32,7 @@ def ht_datasets(file_format):
     if request.method == 'POST':
         data_json = request.get_json()
         print(data_json['advancedSearch'])
-        dataset_search = DatasetsSearch(data_json['advancedSearch'], True, gql_service)
+        dataset_search = DatasetsSearch(data_json['advancedSearch'], False, gql_service)
         dataset_search.get_data(file_format)
         return dataset_search.response
     return '''

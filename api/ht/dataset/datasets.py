@@ -27,10 +27,10 @@ class DatasetsSearch:
                 ws = WServices(self.gql_service, self.advanced_search)
                 data = ws.get_data()
                 if file_format == 'jsontable':
-                    data = dataset_jsontable(data)
-                    data = json.dumps(data)
-                    data = json.loads(data)
-                    self.response = jsonify(data)
+                    json_data = dataset_jsontable(data)
+                    json_data = json.dumps(json_data)
+                    json_data = json.loads(json_data)
+                    self.response = jsonify(json_data)
                 else:
                     self.response = {"error": "formato invalido"}
                 data = str(data)

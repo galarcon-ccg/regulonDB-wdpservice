@@ -64,7 +64,7 @@ def dataset_jsontable(datasets):
         except Exception as e:
             print(e)
         if dataset["growthConditions"]:
-            growthConditions_organism = dataset["growthConditions"]["organism"]
+            growthConditions_organism = str(dataset["growthConditions"]["organism"])
             growthConditions_geneticBackground = dataset["growthConditions"]["geneticBackground"]
             growthConditions_medium = dataset["growthConditions"]["medium"]
             growthConditions_aeration = dataset["growthConditions"]["aeration"]
@@ -81,6 +81,8 @@ def dataset_jsontable(datasets):
         row = {
             "_id": dataset["_id"],
             "sample_title": dataset['sample']['title'],
+            "referenceGenome": dataset["referenceGenome"],
+            "datasetType": dataset["datasetType"],
             "publications_title": publications,
             "publications_authors": authors,
             "objectsTested_name": tfs,
