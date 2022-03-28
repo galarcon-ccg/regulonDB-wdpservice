@@ -48,22 +48,6 @@ class Querys:
                     distanceTo
                 }
             }
-            foundClassicRIs {
-                tfbsLeftPosition
-                tfbsRightPosition
-                relativeGeneDistance
-                relativeTSSDistance
-                strand
-                sequence
-            }
-            foundDatasetRIs {
-                tfbsLeftPosition
-                tfbsRightPosition
-                relativeGeneDistance
-                relativeTSSDistance
-                strand
-                sequence
-            }
             peakId
             score
             strand
