@@ -4,8 +4,8 @@ COLUMNS = [
     {"Header": "_id", "accessor": "_id"},
     {"Header": "referenceGenome", "accessor": "referenceGenome"},
     {"Header": "datasetType", "accessor": "datasetType"},
-    {"Header": "sample", "accessor": "sample_title"},
     {"Header": "Transcription Factor", "accessor": "objectsTested_name"},
+    {"Header": "Dataset Title", "accessor": "sample_title"},
     {"Header": "publications", "accessor": "publications_title"},
     {"Header": "authors", "accessor": "publications_authors"},
     {"Header": "sourceSerie", "columns": [
