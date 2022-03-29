@@ -12,6 +12,10 @@ class WServices:
         self.variables = {"datasetId": "" + dataset_id}
 
     def get_data(self):
+        if self.data_type == "ge":
+            data = self.gql_service(self.query, {"advancedSearch": ""+self.dataset_id+"[datasetIds]"})
+            return data['data']['getGeneExpressionFromSearch']
+
         data = self.gql_service(self.query, self.variables)
         if self.data_type == "sites":
             return data['data']['getAllTFBindingOfDataset']

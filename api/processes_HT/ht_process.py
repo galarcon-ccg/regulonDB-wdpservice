@@ -9,6 +9,7 @@ from .peaksData import process_peaks_to_gff3
 from .tuData import process_tus_to_gff3
 from .ttsData import process_tts_to_gff3
 from .tssData import process_tss_to_gff3
+from .geneExpression import process_ge_to_bedgraph
 
 
 class HTprocess:
@@ -21,7 +22,7 @@ class HTprocess:
 
     def get_data(self, file_format, data_type):
         file_format = file_format.lower()
-        valid_formats = ["gff3", "jsontable"]
+        valid_formats = ["gff3", "jsontable", "bedgraph"]
         if file_format not in valid_formats:
             self.ht_response = 'invalid format: ' + file_format
             return ""
@@ -47,6 +48,17 @@ class HTprocess:
                         data,
                         mimetype="text/gff3",
                         headers={"Content-disposition": "attachment; gff3_"+data_type+"_" + self.dataset_id + ".gff3"}
+                    )
+                elif file_format == "bedgraph":
+                    if data_type == "ge":
+                        data = process_ge_to_bedgraph(data)
+                    else:
+                        data = "error: file format ht process"
+                    self.ht_response = Response(
+                        data,
+                        mimetype="text/bedgraph",
+                        headers={
+                            "Content-disposition": "attachment; bedgraph_" + data_type + "_" + self.dataset_id + ".bedgraph"}
                     )
                 else:
                     data = str(data)

@@ -148,11 +148,33 @@ class Querys:
         }
         """
 
+    GEDataOfDataset = """
+    query GEDataOfDataset($advancedSearch: String!){
+    getGeneExpressionFromSearch(advancedSearch: $advancedSearch){
+      _id
+        datasetIds
+        gene {
+          _id
+          name
+          synonyms
+          bnumber
+          leftEndPosition
+          rightEndPosition
+        }
+        count
+        tpm
+        fpkm
+        temporalId
+      }
+    }
+    """
+
     switch_querys = {
         "author": AuthorsDataOfDataset,
         "peaks": PeaksDataOfDataset,
         "sites": SitesDataOfDataset,
         "tus": TuDataOfDataset,
         "tts": TtsOfDataset,
-        "tss": TssDataOfDataset
+        "tss": TssDataOfDataset,
+        "ge": GEDataOfDataset
     }

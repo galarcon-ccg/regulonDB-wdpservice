@@ -45,7 +45,7 @@ def process_ht(id_dataset, data_type, file_format):
     data_type = data_type.lower()
     ht_process = HTprocess(id_dataset, gql_service)
     response = 'error a'
-    valid_types = ["sites", "peaks", "tus", "tts", "tss"]
+    valid_types = ["sites", "peaks", "tus", "tts", "tss", "ge"]
     if data_type == 'authordata':
         ht_process.author_data(file_format)
         return ht_process.get_response()
