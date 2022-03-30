@@ -149,8 +149,8 @@ class Querys:
         """
 
     GEDataOfDataset = """
-    query GEDataOfDataset($advancedSearch: String!){
-    getGeneExpressionFromSearch(advancedSearch: $advancedSearch){
+    query GEDataOfDataset($datasetId: String!){
+    getAllGeneExpressionOfDataset(datasetId: $datasetId limit: 0){
       _id
         datasetIds
         gene {

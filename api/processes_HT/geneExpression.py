@@ -14,15 +14,21 @@ def process_ge_to_bedgraph(ge):
     header = 'track type=bedGraph name="BedGraph Format" description="BedGraph format" visibility=full color=200,100,0 altColor=0,100,200 priority=20'
     bedgraph_ge = ""
     for ex in ge:
-        for key in ex:
-            if not ex[key]:
-                ex[key] = ""
-        tuple_ts = (
-            "NC_000913.3",
-            str(ex['gene']['leftEndPosition']),
-            str(ex['gene']['rightEndPosition']),
-            str(ex['tpm'])
-        )
+        try:
+            posL = ""
+            posR = ""
+            if ex['gene']:
+                posL = str(ex['gene']['leftEndPosition'])
+                posR = str(ex['gene']['rightEndPosition'])
+            tuple_ts = (
+                "NC_000913.3",
+                posL,
+                posR,
+                str(ex['tpm'])
+            )
+        except Exception as e:
+            print(e)
+            print(ex)
 
         try:
             bedgraph_ge = bedgraph_ge+"\t".join(tuple_ts)+"\n"

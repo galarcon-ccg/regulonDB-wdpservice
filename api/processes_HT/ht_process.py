@@ -43,7 +43,7 @@ class HTprocess:
                     elif data_type == "tss":
                         data = process_tss_to_gff3(data)
                     else:
-                        data = "error: file format ht process"
+                        data = "error : file format ht process"
                     self.ht_response = Response(
                         data,
                         mimetype="text/gff3",
@@ -53,7 +53,7 @@ class HTprocess:
                     if data_type == "ge":
                         data = process_ge_to_bedgraph(data)
                     else:
-                        data = "error: file format ht process"
+                        data = "error : file format ht process"
                     self.ht_response = Response(
                         data,
                         mimetype="text/bedgraph",
@@ -66,13 +66,20 @@ class HTprocess:
                     file.write(data)
             except Exception as e:
                 print(e)
-                self.ht_response = "51 Error: " + str(e)
+                self.ht_response = "51 ht process Error: " + str(e)
         else:
             if file_format == 'gff3':
                 self.ht_response = Response(
                     data,
                     mimetype="text/gff3",
                     headers={"Content-disposition": "attachment; gff3_sites_" + self.dataset_id + ".gff3"}
+                )
+            elif file_format == "bedgraph":
+                self.ht_response = Response(
+                    data,
+                    mimetype="text/bedgraph",
+                    headers={
+                        "Content-disposition": "attachment; bedgraph_" + data_type + "_" + self.dataset_id + ".bedgraph"}
                 )
             else:
                 self.ht_response = 'invalid format: ' + file_format
