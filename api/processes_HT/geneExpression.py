@@ -1,11 +1,42 @@
-def process_ge_to_jsont(tss):
-    json_tss_table = {
-        'comments': [],
-        'columns': [],
-        'data': []
-    }
-    columns = ['start', 'end', 'score', 'strand', 'sequence', 'genes']
-    return json_tss_table
+def process_ge_to_jsont(ge):
+    columns = """[
+        {"Header": "ID", "accessor": "_id"},
+        {"Header": "leftEndPosition", "accessor": "_lp"},
+        {"Header": "rightEndPosition", "accessor": "_rp"},
+        {"Header": "Gene", "accessor": "_gene"},
+        {"Header": "TPM", "accessor": "_tpm"},
+        {"Header": "FPKM", "accessor": "_fpkm"},
+        {"Header": "IGV position", "accessor": "_position"}
+    ]"""
+    data = []
+    try:
+        for ex in ge:
+            position = ""
+            lp = ""
+            rp = ""
+            gene = ""
+            if ex["gene"]:
+                gene = ex["gene"]["name"]
+                lp = ex["gene"]["leftEndPosition"]
+                rp = ex["gene"]["rightEndPosition"]
+                # NC_000913.3:603,209-621,582
+                position = "NC_000913.3:"+str(lp)+"-"+str(rp)
+            data.append(
+                f"""{{
+                "_id": "{id}",
+                "_tpm": "{ex["tpm"]}",
+                "_fpkm": "{ex["fpkm"]}",
+                "_lp": "{str(lp)}",
+                "_rp": "{str(rp)}",
+                "_gene": "{gene}",
+                "_position": "{position}"
+                }}"""
+            )
+        data = ",\n".join(data)
+
+    except Exception as e:
+        print("error", e)
+    return f'{{ "columns": {columns}, "data":[{data}] }}'
 
 
 def process_ge_to_bedgraph(ge):

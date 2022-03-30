@@ -9,7 +9,7 @@ from .peaksData import process_peaks_to_gff3
 from .tuData import process_tus_to_gff3
 from .ttsData import process_tts_to_gff3
 from .tssData import process_tss_to_gff3
-from .geneExpression import process_ge_to_bedgraph
+from .geneExpression import process_ge_to_bedgraph, process_ge_to_jsont
 
 
 class HTprocess:
@@ -60,6 +60,13 @@ class HTprocess:
                         headers={
                             "Content-disposition": "attachment; bedgraph_" + data_type + "_" + self.dataset_id + ".bedgraph"}
                     )
+                elif file_format == "jsontable":
+                    if data_type == "ge":
+                        data = process_ge_to_jsont(data)
+                    else:
+                        data = "{error : file format ht process}"
+                    data_json = json.loads(data)
+                    self.ht_response = jsonify(data_json)
                 else:
                     data = str(data)
                 with open("./cache/" + self.dataset_id + "_"+data_type+"_" + file_format + ".cache", "w") as file:
@@ -81,6 +88,9 @@ class HTprocess:
                     headers={
                         "Content-disposition": "attachment; bedgraph_" + data_type + "_" + self.dataset_id + ".bedgraph"}
                 )
+            elif file_format == "jsontable":
+                data = json.loads(data)
+                self.ht_response = jsonify(data)
             else:
                 self.ht_response = 'invalid format: ' + file_format
 
